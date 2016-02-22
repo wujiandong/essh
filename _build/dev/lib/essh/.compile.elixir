@@ -1,0 +1,33 @@
+v2.
+{<<"_build/dev/lib/essh/ebin/Elixir.Essh.Run.beam">>,'Elixir.Essh.Run',module,
+ <<"lib/essh/run.ex">>,
+ ['Elixir.Module','Elixir.Kernel','Elixir.GenServer'],
+ ['Elixir.Task',erlang,'Elixir.Access','Elixir.IO','Elixir.Integer',
+  'Elixir.Enum','Elixir.String','Elixir.IO.ANSI',ets,'Elixir.Application'],
+ [],nil}.
+{<<"_build/dev/lib/essh/ebin/Elixir.Essh.EtsWorker.beam">>,
+ 'Elixir.Essh.EtsWorker',module,<<"lib/essh/ets_worker.ex">>,
+ ['Elixir.Module','Elixir.Kernel','Elixir.GenServer'],
+ [erlang,'Elixir.Access',ets],
+ [],nil}.
+{<<"_build/dev/lib/essh/ebin/Elixir.Mix.Tasks.Essh.beam">>,
+ 'Elixir.Mix.Tasks.Essh',module,<<"lib/essh.ex">>,
+ ['Elixir.Module','Elixir.Enum','Elixir.Kernel','Elixir.Supervisor.Spec',
+  'Elixir.Mix.Task','Elixir.Application'],
+ [erlang,'Elixir.Essh.Worker',ssh,'Elixir.Essh.EtsWorker','Elixir.Essh.CLI',
+  'Elixir.Essh.Supervisor','Elixir.Essh.Run',ets,'Elixir.Supervisor'],
+ [],nil}.
+{<<"_build/dev/lib/essh/ebin/Elixir.Essh.CLI.beam">>,'Elixir.Essh.CLI',module,
+ <<"lib/essh/cli.ex">>,
+ ['Elixir.Kernel'],
+ ['Elixir.OptionParser',erlang,'Elixir.String.Chars','Elixir.Access',
+  'Elixir.IO','Elixir.Enum','Elixir.String','Elixir.File',
+  'Elixir.Application','Elixir.Stream'],
+ [],nil}.
+{<<"_build/dev/lib/essh/ebin/Elixir.Essh.Worker.beam">>,'Elixir.Essh.Worker',
+ module,<<"lib/essh/worker.ex">>,
+ ['Elixir.Module','Elixir.Kernel','Elixir.GenServer'],
+ ['Elixir.Map',erlang,'Elixir.String.Chars','Elixir.Access',ssh,'Elixir.IO',
+  ssh_sftp,'Elixir.Float','Elixir.String','Elixir.SSHEx','Elixir.IO.ANSI',
+  'Elixir.File','Elixir.Application','Elixir.Stream'],
+ [],nil}.

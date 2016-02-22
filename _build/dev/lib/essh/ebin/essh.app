@@ -1,0 +1,9 @@
+{application,essh,
+             [{registered,[]},
+              {description,"essh"},
+              {vsn,"0.0.1"},
+              {modules,['Elixir.Essh.CLI','Elixir.Essh.EtsWorker',
+                        'Elixir.Essh.Run','Elixir.Essh.Worker',
+                        'Elixir.Mix.Tasks.Essh']},
+              {applications,[kernel,stdlib,elixir,logger]},
+              {mod,{'Elixir.Mix.Tasks.Essh',[]}}]}.
