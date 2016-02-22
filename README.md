@@ -1,11 +1,6 @@
 # Essh
 
-**TODO: Add description**
-
 ## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
   1. Add `essh` to your list of dependencies in `mix.exs`:
 
     ```elixir
@@ -21,4 +16,13 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
       [applications: [:essh]]
     end
     ```
+## Usage
 
+1. cat ip.txt |> mix essh --stdin -c "hostname" 
+2. mix essh -f ip.txt -c "hostname"
+3. mix essh -f ip.txt -u "/tmp/src /tmp/dest"
+
+
+-f file
+-c command
+-u uploadfile   first arg is src, second arg is  dest
