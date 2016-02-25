@@ -75,7 +75,7 @@ defmodule Essh.Worker do
     end
 
     defp connect_ssh(ips) do
-	case :ssh.connect(ips,12321,[{:user, 'root'},{:silently_accept_hosts, true}],30000) do
+	case :ssh.connect(ips,22,[{:user, 'root'},{:silently_accept_hosts, true}],30000) do
 		{:ok, connref} -> {:ok, connref}
 		{:error, reason} -> 
 			res = "connect #{ips} error: #{reason}"
