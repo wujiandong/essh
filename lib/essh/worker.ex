@@ -137,7 +137,6 @@ defmodule Essh.Worker do
 	case :ssh_sftp.start_channel(connref,[]) do
 		{:ok, channel} -> 
 			content = EEx.eval_file templ_file, [], trim: true
-			IO.puts content
 			case :ssh_sftp.write_file(channel,dest, content) do
 				:ok -> 
 					:ssh_sftp.stop_channel(channel)
