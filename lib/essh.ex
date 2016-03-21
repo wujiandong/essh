@@ -14,6 +14,10 @@ defmodule Mix.Tasks.Essh do
     end
 
     def run(args) do
+
+	Agent.start_link(fn -> %{:pretask=>{[],0}, :dotask=>{[],0}, :potask=>{[],0} } end, name: :task_info)
+        Agent.start_link(fn -> [] end, name: :curr_task)
+
         Essh.CLI.main(args)
         Application.start(:essh)
 
@@ -27,8 +31,4 @@ defmodule Mix.Tasks.Essh do
     
     end
 
-    def get_iplist() do
-        Essh.CLI.main "-f /root/testip"
-    
-    end
 end
