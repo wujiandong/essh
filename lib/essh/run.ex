@@ -1,17 +1,16 @@
 defmodule Essh.Run do
-    use GenServer
+    use  GenServer
 
     def run do 
-	iplist = Application.get_env(:essh,:iplist)
-	tasks = for i <- iplist do
-       		Task.async(fn -> GenServer.call(String.to_atom("worker"<>i),:exec, :infinity) end)
+	tasks = for i <- Application.get_env(:essh,:iplist)  do
+		Task.async(fn -> GenServer.call(String.to_atom("worker"<>i),:exec, :infinity) end)
 	end
+
 	tasks_with_results = Task.yield_many(tasks, 327680)
-
-
 	Enum.map(tasks_with_results, fn {task, res} ->
-  		res || Task.shutdown(task, :brutal_kill);
+		res || Task.shutdown(task, :brutal_kill)
 	end)	
+
 
 	IO.puts IO.ANSI.underline<>"\n\nSummary:"<>IO.ANSI.reset
 	succ = :ets.lookup(:essh, :succ)[:succ]
@@ -21,5 +20,4 @@ defmodule Essh.Run do
 	Application.stop(:essh)
 
     end
-
 end
