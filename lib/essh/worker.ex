@@ -191,15 +191,6 @@ defmodule Essh.Worker do
 	end
     end
 
-    defp parse_tasks(map, task_type, opts) do
-	{dt, dt_num} = Map.get(map, task_type)
-	run_tasks(dt, dt_num, task_type, opts)
-    end
-
-    defp run_tasks([], 0, task_type, _opts) do
-	IO.puts "#{task_type}: no task info"
-    end
-
     defp run_tasks(task_info, opts) do
 	divider = String.duplicate("-", 20)
 	[{:ips, ips}, {:total, total}, {:connref, connref}] = opts	
@@ -207,7 +198,7 @@ defmodule Essh.Worker do
 	res = Enum.map(@task_type, fn x -> 
 			case Map.get(task_info, x) do
 				{[], 0} -> "#{x}: no task info\n"
-				{dt, dt_num} -> 
+				{dt, _} -> 
 					info = Enum.map(dt, fn [{:task_type, task_type}, {:args, args}] -> 
 						case task_type do
 							:cmd -> process_cmd(args)
