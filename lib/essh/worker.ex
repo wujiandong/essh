@@ -56,18 +56,12 @@ defmodule Essh.Worker do
 	rescue
 	    e -> 
 		ins_curr(ips, total, Map.get(e, :message), false)
-#		GenServer.call(:etsworker, :insert)
-#		print_output(ips, Map.get(e, :message), total, false)
-		GenServer.cast(:etsworker, :ins_fail)
 	end	
     end
 
     defp run_cmd(connref, ips, total) do
 	res = SSHEx.cmd! connref, Application.get_env(:essh, :cmd),[exec_timeout: 30000]
 	ins_curr(ips, total, res, true)
-#	GenServer.call(:etsworker, :insert)
-#	print_output(ips, res, total, true)
-#	GenServer.cast(:etsworker, :ins_succ)
     end
 
     defp run_upload(connref, ips, total) do
@@ -84,21 +78,12 @@ defmodule Essh.Worker do
 					:ssh_sftp.close(channel, handle)
 					:ssh_sftp.stop_channel(channel)
 					ins_curr(ips, total, "upload #{src} -> #{dest} succ", true)
-#					GenServer.call(:etsworker, :insert)
-#					print_output(ips, "upload #{src} -> #{dest} succ", total, true)	
-#			    		GenServer.cast(:etsworker, :ins_succ)
 			
 				{:error, reason} -> 
 					ins_curr(ips, total, "dest: #{dest}: "<>to_string(reason), false)
-#					GenServer.call(:etsworker, :insert)
-#					print_output(ips, "dest: #{dest}: "<>to_string(reason), total, false)
-#			    		GenServer.cast(:etsworker, :ins_fail)
 			end
 		{:error, reason} ->  
 				ins_curr(ips, total, "dest: #{dest}: "<>to_string(reason), false)
-#				GenServer.call(:etsworker, :insert)
-#				print_output(ips, reason, total, false)
-#			    	GenServer.cast(:etsworker, :ins_fail)
 
 	end	
     end
@@ -144,11 +129,6 @@ defmodule Essh.Worker do
 	end)
 
 	ins_curr(ips, total, Enum.join(rr, "\n"), true)
-
-#	GenServer.call(:etsworker, :insert)
-#	print_output(ips, Enum.join(rr, "\n"), total, true)
-#	GenServer.cast(:etsworker, :ins_succ)
-
     end
 
     defp run_templ(connref, ips, total) do
@@ -163,21 +143,11 @@ defmodule Essh.Worker do
 					:ssh_sftp.stop_channel(channel)
 					ins_curr(ips, total, "upload #{templ_file} -> #{dest} succ", true)
 
-#					GenServer.call(:etsworker, :insert)
-#					print_output(ips, "upload #{templ_file} -> #{dest} succ", total, true)	
-#			    		GenServer.cast(:etsworker, :ins_succ)
 				{:error, reason} ->
 					ins_curr(ips, total, "dest: #{dest}: "<>to_string(reason), false)
-#					GenServer.call(:etsworker, :insert)
-#					print_output(ips, "dest: #{dest}: "<>to_string(reason), total, false)
-#			    		GenServer.cast(:etsworker, :ins_fail)
-
 			end
 		{:error, reason} -> 
 			ins_curr(ips, total, "dest: #{dest}: "<>to_string(reason), false)
-#			GenServer.call(:etsworker, :insert)
-#			print_output(ips, "dest: #{dest}: "<>to_string(reason), total, false)
-#			GenServer.cast(:etsworker, :ins_fail)
 	end	
     end
 
@@ -218,8 +188,6 @@ defmodule Essh.Worker do
 	GenServer.call(:etsworker, :insert)
 	GenServer.cast(:etsworker, :ins_succ)
 	print_output(ips, res, total, true)	
-
-#	IO.puts divider <> "exec #{task_type} compilete" <> divider
     end
 
     defp ins_curr(ips, total, info, true) do
