@@ -2,10 +2,11 @@ defmodule Essh.CLI do
     use Essh.TaskMacroRun
 
     def main(args) do
-        case check_args(args ++ ["--no-stdin"]) do
+        case check_args(args ++ ["--no-stdin", "--no-shell"]) do
             :help -> print_help(); exit(:normal)
             nil -> case OptionParser.parse(args,aliases: [f: :file, h: :help, c: :cmd, 
-				u: :upload, b: :bat, t: :templ, g: :group,], switches: [stdin: :boolean]) do
+				u: :upload, b: :bat, t: :templ, g: :group, s: :shell], 
+				switches: [stdin: :boolean, shell: :boolean]) do
                         {pargs, [], []} -> 
 				case process(pargs) do
 					:nfo -> IO.puts "-f/--file or --group or --stdin not given"; exit(:normal)
@@ -74,6 +75,7 @@ defmodule Essh.CLI do
 		is_boolean(args[:upload]) == true -> IO.puts "-u/--upload after parameter not given"; exit(:normal)
 		is_boolean(args[:bat]) == true -> IO.puts "-b/--bat after parameter not given"; exit(:normal)
 		is_boolean(args[:templ]) == true -> IO.puts "-t/--templ after parameter not given"; exit(:normal) 
+		is_boolean(args[:shell]) == true -> process_shell
 		is_nil(args[:cmd]) == false -> process_cmd(String.to_char_list(args[:cmd]))
 		is_nil(args[:upload]) == false -> upload_file(args[:upload])
 		is_nil(args[:bat]) == false -> process_bat(args[:bat])
@@ -109,8 +111,6 @@ defmodule Essh.CLI do
 		
 
 	iplist_re = Regex.scan(~r/\[(\S+)\](.+?)(?=\[\S+\]?|$)/s, Enum.join(iplist, " ")) 
-#				|> Enum.map(fn [_|tail] -> [group|[hosts]]=tail; {String.to_atom(group), hosts} end)
-
 
 	case iplist_re do
 		[] -> Application.put_env(:essh, :iplist, iplist)
@@ -129,9 +129,7 @@ defmodule Essh.CLI do
 
 		case group do
 			:all -> 
-				ip_all = List.flatten(filter_group 
-						|> Enum.map(fn x -> Keyword.get(iplist_kw, x) end)
-						|> Enum.uniq)
+				ip_all = Regex.scan(~r/(\d+\.){3}\d+/s, Enum.join(iplist, " ")) |> Enum.map(fn [head|_] -> head end)
 				Application.put_env(:essh, :iplist, ip_all)	
 		      		Application.put_env(:essh, :iplist_length, length(ip_all))
 			g -> 
@@ -190,6 +188,10 @@ defmodule Essh.CLI do
 			end
 		_ -> IO.puts "dest file not given"; exit(:normal)
 	end
+    end
+
+    defp process_shell() do
+	Application.put_env(:essh, :shell, true)
     end
 
     defp print_help() do

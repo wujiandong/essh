@@ -30,3 +30,8 @@ use Mix.Config
 #     import_config "#{Mix.env}.exs"
 
 config    :logger, level: :debug
+config	  :essh, 
+		auth_method: :key,
+		port: 12321,
+		key: 'root'
+	
