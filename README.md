@@ -26,3 +26,4 @@
 -f file
 -c command
 -u uploadfile   first arg is src, second arg is  dest
+test
